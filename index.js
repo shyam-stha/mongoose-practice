@@ -29,7 +29,19 @@ const connectDB = async () => {
         //invoking function added to the methods property of schema
         nisha.greeting()
 
+        //saving document to the database
+        shyam.save()
 
+        //this query will find all the humans in the database
+        const humans = await Human.find();
+
+        const searchNisha = await Human.find({name : /^nisha/})
+
+        //loging all the humans
+        console.log(humans)
+
+        //loging filtered human
+        console.log(searchNisha)
     } catch (error) {
         console.log("error", error)
     }

@@ -1,5 +1,7 @@
 import mongoose, { model, Schema } from "mongoose";
 
+mongoose.set('strictQuery', false)
+
 const connectDB = async () => {
     try {
         await mongoose.connect('mongodb://localhost:27017/test')
@@ -24,7 +26,7 @@ const bookSchema = new Schema({
 
 //adding instance method to the bookSchema
 bookSchema.methods.findSamePublisher = function (cb) {
-    return new model('Book').find({ publisher: this.publisher }, cb)
+    return new model('Book').find({ publisher: this.publisher },cb)
 }
 
 //creating a model of using bookSchema 
@@ -53,9 +55,9 @@ const jiwankadakiful = new Book({
 // console.log(munamadan)
 
 //invoking intance method findSamePublisher which wiil give us a list of books with same publisher
-munamadan.findSamePublisher((err, publishers) => {
+/* munamadan.findSamePublisher((err, publishers) => {
         console.log(publishers)
-})
+}) */
 
 
 

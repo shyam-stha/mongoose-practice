@@ -42,6 +42,10 @@ const connectDB = async () => {
 
         //loging filtered human
         console.log(searchNisha)
+
+        mongoose.disconnect.on(()=>{
+            console.log("Mongoose connection with database disconnected")
+        })
     } catch (error) {
         console.log("error", error)
     }

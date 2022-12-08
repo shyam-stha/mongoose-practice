@@ -128,7 +128,7 @@ const parentSchema = new Schema({
     children: [childSchema],
     // Single nested subdocuments
     // child: childSchema
-}); 
+});
 
 
 //defining child schema 
@@ -170,7 +170,7 @@ const parentSchema = new Schema({
 
 
 //defing parent model
-// const Parent = mongoose.model('Parent', parentSchema)
+const Parent = mongoose.model('Parent', parentSchema)
 
 //adding nested document to the model
 // const parent = new Parent({children : [{name : "nisha"}, {name: "geeta"}]})
@@ -180,3 +180,38 @@ const parentSchema = new Schema({
 
 // parent.save()
 // console.log(parent)
+
+/* 
+childSchema.pre('save', function(next){
+    if(this.name === "invalid"){
+        return next(new Error("#sadPanda"))
+    }
+    next()
+})
+
+const parent = new Parent({children : [{name : "invalid"}, {name: "nimisha"}]})
+
+parent.save((err, doc)=>{
+    if(!err){
+       return console.log(doc)
+    }
+    console.log(err)
+}) */
+
+
+
+//Subdocument
+const subDocumentSchema = new mongoose.Schema({
+    child: new mongoose.Schema({ name: String, age: Number })
+})
+
+const subDoc = mongoose.model("subdoc", subDocumentSchema)
+
+
+//nested pathas
+
+const nestedSchema = new mongoose.Schema({
+    child: { name: { type: String, required: true }, age: Number }
+})
+
+const nested = mongoose.model('nested', nestedSchema)

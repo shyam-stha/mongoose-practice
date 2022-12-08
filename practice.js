@@ -121,52 +121,62 @@ munamadan.name = "muna madan";
 
 //Subdocuments
 
-// const childSchema = new Schema({ name: 'string' });
+const childSchema = new Schema({ name: 'string' });
 
-/* const parentSchema = new Schema({
+const parentSchema = new Schema({
     // Array of subdocuments
     children: [childSchema],
     // Single nested subdocuments
-    child: childSchema
-}); */
+    // child: childSchema
+}); 
 
 
 //defining child schema 
-const childSchema = new Schema({ name: 'string' });
+// const childSchema = new Schema({ name: 'string' });
 //creating a model
-const Child = mongoose.model('Child', childSchema)
+// const Child = mongoose.model('Child', childSchema)
 
 //assigning document to the child model
-const anushuya = new Child({name : "anushuya"})
+// const anushuya = new Child({name : "anushuya"})
 
 //saving the document
 // await anushuya.save()
 // console.log(anushuya)
 
 //defining parent schema
-const parentSchema = new Schema({
-    child :{
-        //child schema type as ObjectID i.e. taking references from 'Child' model
-        type : mongoose.Types.ObjectId,
-        ref : 'Child'
-    }
-})
+// const parentSchema = new Schema({
+//     child :{
+//         //child schema type as ObjectID i.e. taking references from 'Child' model
+//         type : mongoose.Types.ObjectId,
+//         ref : 'Child'
+//     }
+// })
 
 //creating parent model
-const Parent = mongoose.model('Parent', parentSchema)
+// const Parent = mongoose.model('Parent', parentSchema)
 
 //adding document to the parent model
-const pragya = new Parent({child : "639207b48f2416eceb1dc232"})
+// const pragya = new Parent({child : "639207b48f2416eceb1dc232"})
 
 //saving document
 // pragya.save()
 // console.log(pragya)
 
 //applying query and populating reference feild
-const doc = await Parent.findOne().populate('child')
+// const doc = await Parent.findOne().populate('child')
 // console.log(doc)
 
 
 
 
+//defing parent model
+// const Parent = mongoose.model('Parent', parentSchema)
 
+//adding nested document to the model
+// const parent = new Parent({children : [{name : "nisha"}, {name: "geeta"}]})
+
+//performing update in children second index 
+// parent.children[1].name = "amrita"
+
+// parent.save()
+// console.log(parent)

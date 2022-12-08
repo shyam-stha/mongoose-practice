@@ -24,13 +24,64 @@ const bookSchema = new Schema({
 //schema.add method will add additonal keys 
 // bookSchema.add({edition : String})
 
+
+
+
+
 //adding instance method to the bookSchema
 bookSchema.methods.findSamePublisher = function (cb) {
     return new model('Book').find({ publisher: this.publisher },cb)
 }
 
 //creating a model of using bookSchema 
-const Book = new model('Book', bookSchema);
+// const Book = new model('Book', bookSchema);
+
+
+/* 
+const munamadan = new Book({
+    name: "munamadan",
+    pages: 270,
+    author: "Laxmi  shrestha",
+    publisher: "samar nepal"
+})
+
+const jiwankadakiful = new Book({
+    name: "jiwankadakiful",
+    pages: 199,
+    author: "jhamak kumari ghimire",
+    publisher: "samar nepal"
+})
+ */
+//saving new document using Book model
+// await jiwankadakiful.save()
+// await munamadan.save()
+
+
+//loging munamadan book 
+// console.log(munamadan)
+
+//invoking intance method findSamePublisher which wiil give us a list of books with same publisher
+
+/* munamadan.findSamePublisher((err, publishers) => {
+        console.log(publishers)
+}) */
+
+
+
+
+
+
+//Assign a function to the "statics" object of our bookSchema
+bookSchema.statics.findByName = function(name){
+    return this.find({name: new RegExp(name, 'i')})
+}
+
+// or, equivalently, we can call `bookSchema.static()`.
+bookSchema.static('findByPublisher', function(publisher){
+    return this.find({publisher});
+})
+
+const Book  = new model('Book', bookSchema)
 
 const munamadan = new Book({
     name: "munamadan",
@@ -46,18 +97,13 @@ const jiwankadakiful = new Book({
     publisher: "samar nepal"
 })
 
-//saving new document using Book model
-// await jiwankadakiful.save()
-// await munamadan.save()
+//invoking bookSchema static method
+/* let munamadanBook = await Book.findByName("munamadan")
+
+munamadanBook = munamadanBook.concat(await Book.findByPublisher("samar nepal"))
 
 
-//loging munamadan book 
-// console.log(munamadan)
-
-//invoking intance method findSamePublisher which wiil give us a list of books with same publisher
-/* munamadan.findSamePublisher((err, publishers) => {
-        console.log(publishers)
-}) */
+console.log(munamadanBook) */
 
 
 

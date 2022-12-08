@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, { model, mongo, Schema } from "mongoose";
 
 mongoose.set('strictQuery', false)
 
@@ -30,7 +30,7 @@ const bookSchema = new Schema({
 
 //adding instance method to the bookSchema
 bookSchema.methods.findSamePublisher = function (cb) {
-    return new model('Book').find({ publisher: this.publisher },cb)
+    return new model('Book').find({ publisher: this.publisher }, cb)
 }
 
 //creating a model of using bookSchema 
@@ -72,16 +72,16 @@ const jiwankadakiful = new Book({
 
 
 //Assign a function to the "statics" object of our bookSchema
-bookSchema.statics.findByName = function(name){
-    return this.find({name: new RegExp(name, 'i')})
+bookSchema.statics.findByName = function (name) {
+    return this.find({ name: new RegExp(name, 'i') })
 }
 
 // or, equivalently, we can call `bookSchema.static()`.
-bookSchema.static('findByPublisher', function(publisher){
-    return this.find({publisher});
+bookSchema.static('findByPublisher', function (publisher) {
+    return this.find({ publisher });
 })
 
-const Book  = new model('Book', bookSchema)
+const Book = new model('Book', bookSchema)
 
 const munamadan = new Book({
     name: "munamadan",
@@ -106,6 +106,65 @@ munamadanBook = munamadanBook.concat(await Book.findByPublisher("samar nepal"))
 console.log(munamadanBook) */
 
 
+/* Mongoose documents represent a one-to-one mapping to documents as stored in MongoDB. Each document is an instance of its Model. */
+
+//reassigning the property value
+munamadan.name = "muna madan";
+
+//saving document
+/* await munamadan.save((err, doc) => {
+    if (!err) {
+        console.log(doc)
+    }
+}) */
+
+
+//Subdocuments
+
+// const childSchema = new Schema({ name: 'string' });
+
+/* const parentSchema = new Schema({
+    // Array of subdocuments
+    children: [childSchema],
+    // Single nested subdocuments
+    child: childSchema
+}); */
+
+
+//defining child schema 
+const childSchema = new Schema({ name: 'string' });
+//creating a model
+const Child = mongoose.model('Child', childSchema)
+
+//assigning document to the child model
+const anushuya = new Child({name : "anushuya"})
+
+//saving the document
+// await anushuya.save()
+// console.log(anushuya)
+
+//defining parent schema
+const parentSchema = new Schema({
+    child :{
+        //child schema type as ObjectID i.e. taking references from 'Child' model
+        type : mongoose.Types.ObjectId,
+        ref : 'Child'
+    }
+})
+
+//creating parent model
+const Parent = mongoose.model('Parent', parentSchema)
+
+//adding document to the parent model
+const pragya = new Parent({child : "639207b48f2416eceb1dc232"})
+
+//saving document
+// pragya.save()
+// console.log(pragya)
+
+//applying query and populating reference feild
+const doc = await Parent.findOne().populate('child')
+// console.log(doc)
 
 
 
